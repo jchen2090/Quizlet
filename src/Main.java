@@ -1,65 +1,79 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
+    private static Scanner inputHandler;
+    private static ArrayList<Quiz> quizzes;
+
+    private static void listQuiz() {
+        for (int i = 0; i < quizzes.size(); i++) {
+            Quiz quiz = quizzes.get(i);
+            System.out.println(i + 1 + ". " + quiz.getName());
+        }
+
+        System.out.print("Enter topic do you want to get quizzed on: ");
+        String topic = inputHandler.nextLine();
+
+        try {
+            int topicIdx = Integer.parseInt(topic);
+            Quiz quizToRun = quizzes.get(topicIdx - 1);
+            quizToRun.run(inputHandler);
+        } catch (NumberFormatException e) {
+            System.out.println("Not real number");
+        }
+    }
+
+    private static void initializeVariables() {
+        inputHandler = new Scanner(System.in);
+        quizzes = new ArrayList<>();
+    }
+
+    private static void createQuiz() {
+        System.out.println("What is the topic of your quiz?");
+        String quizName = inputHandler.nextLine();
+        Quiz quiz = new Quiz(quizName);
+
+        String continueOrNot;
+
+        do {
+            System.out.print("Enter word you'd like to add: ");
+            String word = inputHandler.nextLine();
+
+            System.out.print("Enter the word's definition: ");
+            String definition = inputHandler.nextLine();
+
+            Question question = new Question(word, definition);
+            quiz.addWord(question);
+
+            System.out.println("If finished adding words type yes");
+            continueOrNot = inputHandler.nextLine();
+        } while (!continueOrNot.equalsIgnoreCase("yes"));
+        quizzes.add(quiz);
+    }
+
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        //constructs the data set and gives it the name of the set//
-        System.out.println("What's the name of your set?");
-        String gabababboo = scan.nextLine();
-        Data set = new Data(gabababboo);
-        //creates the set's words and definitions
-        boolean stop  = true;
-        while(stop){
-            System.out.println("What is a word you'd like to add?");
-            set.addWord(scan.nextLine());
-            System.out.println("What is its definition?");
-            set.addDefinition(scan.nextLine());
-            System.out.println("Is this enough words? (say 'yes' to stop. else, say anything)");
-            if (scan.nextLine().equals("yes")){
-                stop = false;
-            }
-        }
-        //serves as a blocker so the quiz doesn't start instantly; starts when user is ready//
-        stop = true;
-        while(stop){
-            System.out.println("Would you like to be quizzed now?(say 'yes' to be quizzed)");
-            if (scan.nextLine().equals("yes")) {
-                stop = false;
-            }
-        }
-        //quizzes the user// // add possible variation through a boolean set on/off= randomization of the data set//
-        for(int i = 0; i<set.word.size();i++){
-            System.out.println(set.word.get(i));
-            System.out.println("WHATS THE DEFINITION?");
-            if(scan.nextLine().equals(set.definition.get(i))){
-                System.out.println("GOOD JOB HERE'S ONE POINT");
-                set.score++;
+        initializeVariables();
+        createQuiz();
 
-            } else {
-                System.out.println("WRONG");
-            }
-        }
-        System.out.println("Your score was " + set.score + " out of " + set.word.size() + ".");
-        set.score = 0;
-        //repeats quiz (do you want to be quizzed again?)//
-        stop = true;
-        while(stop){
-            System.out.println("Would you like to be quizzed again?(say 'yes' to be quizzed again)");
-            if(scan.nextLine().equals("yes")){
-                for(int i = 0; i<set.word.size();i++){
-                    System.out.println(set.word.get(i));
-                    System.out.println("WHATS THE DEFINITION?");
-                    if(scan.nextLine().equals(set.definition.get(i))){
-                        System.out.println("GOOD JOB HERE'S ONE POINT");
-                        set.score++;
-                    } else {
-                        System.out.println("WRONG");
-                    }
-                }
-            } else{
-                System.out.println("ok bye");
-                stop = false;
-            }
-        }
+        System.out.print(
+                "1. Start quiz now"
+                + "\n2. Create new quiz"
+                + "\n>>> "
+        );
 
+        String choice = inputHandler.nextLine();
+
+        //todo make this in a loop
+        switch (choice) {
+            case "1":
+                listQuiz();
+                break;
+            case "2":
+                createQuiz();
+                break;
+            default:
+                System.out.println("Idk how you got this");
+                break;
+        }
     }
 }
