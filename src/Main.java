@@ -5,7 +5,7 @@ public class Main {
     private static Scanner inputHandler;
     private static ArrayList<Quiz> quizzes;
 
-    private static void listQuiz() {
+    private static void listQuizzes() {
         for (int i = 0; i < quizzes.size(); i++) {
             Quiz quiz = quizzes.get(i);
             System.out.println(i + 1 + ". " + quiz.getName());
@@ -19,7 +19,7 @@ public class Main {
             Quiz quizToRun = quizzes.get(topicIdx - 1);
             quizToRun.run(inputHandler);
         } catch (NumberFormatException e) {
-            System.out.println("Not real number");
+            System.out.println("Quiz number does not exist");
         }
     }
 
@@ -55,25 +55,31 @@ public class Main {
         initializeVariables();
         createQuiz();
 
-        System.out.print(
-                "1. Start quiz now"
-                + "\n2. Create new quiz"
-                + "\n>>> "
-        );
+        while (true) {
+            System.out.print(
+                    "1. Start quiz now"
+                    + "\n2. Create new quiz"
+                    + "\n9. Quit"
+                    + "\n>>> "
+            );
 
-        String choice = inputHandler.nextLine();
-
-        //todo make this in a loop
-        switch (choice) {
-            case "1":
-                listQuiz();
-                break;
-            case "2":
-                createQuiz();
-                break;
-            default:
-                System.out.println("Idk how you got this");
-                break;
+            String choice = inputHandler.nextLine();
+            switch (choice) {
+                case "1":
+                    listQuizzes();
+                    break;
+                case "2":
+                    createQuiz();
+                    break;
+                case "9":
+                    System.out.println("ok bye bye");
+                    System.exit(0);
+                default:
+                    System.out.println("Idk how you got this");
+                    break;
+            }
         }
+
+
     }
 }
