@@ -30,14 +30,15 @@ public class Quiz {
 
             String definition = inputHandler.nextLine();
 
-            if (definition.equalsIgnoreCase(question.getDefinition())) {
+            if (definition.trim().equalsIgnoreCase(question.getDefinition().trim())) {
                 System.out.println("Correct!");
                 numCorrect++;
             } else {
                 System.out.println("WRONG NOOB");
             }
         }
-        System.out.println("You got " + numCorrect + " out of " + questions.size() + " right");
+        System.out.println("You got " + numCorrect + " out of " + questions.size() + " right\n");
+        numCorrect = 0;
     }
 
 }
