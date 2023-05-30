@@ -34,7 +34,7 @@ public class Quiz {
                 System.out.println("Correct!");
                 numCorrect++;
             } else {
-                System.out.println("WRONG NOOB");
+                System.out.println("Wrong! The correct answer is: " + question.getDefinition().trim());
             }
         }
         System.out.println("You got " + numCorrect + " out of " + questions.size() + " right\n");
