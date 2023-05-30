@@ -10,7 +10,6 @@ public class Main {
             Quiz quiz = quizzes.get(i);
             System.out.println(i + 1 + ". " + quiz.getName());
         }
-
         System.out.print("Enter topic do you want to get quizzed on: ");
         String topic = inputHandler.nextLine();
 
@@ -18,21 +17,20 @@ public class Main {
             int topicIdx = Integer.parseInt(topic);
             Quiz quizToRun = quizzes.get(topicIdx - 1);
             quizToRun.run(inputHandler);
-        } catch (NumberFormatException e) {
-            System.out.println("Quiz number does not exist");
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            System.out.println("Quiz number does not exist\n");
         }
     }
 
     private static void initializeVariables() {
         inputHandler = new Scanner(System.in);
-        quizzes = new ArrayList<>();
+        quizzes = DataHandler.dataFileExists() ? DataHandler.loadData() : new ArrayList<>();
     }
 
     private static void createQuiz() {
         System.out.println("What is the topic of your quiz?");
         String quizName = inputHandler.nextLine();
         Quiz quiz = new Quiz(quizName);
-
         String continueOrNot;
 
         do {
@@ -53,9 +51,16 @@ public class Main {
 
     public static void main(String[] args) {
         initializeVariables();
-        createQuiz();
+        
+        /*
+         * If previous data exists then there is no need to create quiz on startup
+         */
+        if (quizzes.size() == 0) {
+            createQuiz();
+        }
 
         while (true) {
+            DataHandler.saveData(quizzes);
             System.out.print(
                     "1. Start quiz now"
                     + "\n2. Create new quiz"

@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class Quiz {
+public class Quiz implements Serializable {
     private String name;
     private int numCorrect;
     private ArrayList<Question> questions;
@@ -28,9 +29,10 @@ public class Quiz {
             System.out.println(question.getWord());
             System.out.print("Definition: ");
 
-            String definition = inputHandler.nextLine();
+            String userDefinition = inputHandler.nextLine().trim();
+            String wordDefinition = question.getDefinition().trim();
 
-            if (definition.trim().equalsIgnoreCase(question.getDefinition().trim())) {
+            if (userDefinition.equalsIgnoreCase(wordDefinition)) {
                 System.out.println("Correct!");
                 numCorrect++;
             } else {
