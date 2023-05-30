@@ -75,7 +75,7 @@ public class Main {
                     System.out.println("ok bye bye");
                     System.exit(0);
                 default:
-                    System.out.println("Idk how you got this");
+                    System.out.println("Not an option");
                     break;
             }
         }
