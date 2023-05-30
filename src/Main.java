@@ -51,6 +51,28 @@ public class Main {
         quizzes.add(quiz);
     }
 
+    private static void changeMode(){
+        System.out.println("Select a quiz mode");
+        while(true){
+            System.out.println(
+                    "1. Given term, provide definition"
+                    + "\n2. Given definition, provide term"
+                    +"\n3. Multiple choice (unimplemented)"
+            );
+
+            String choice  = inputHandler.nextLine();
+            //likely add a new int variable in quiz class that determines quiz mode ex: if int = 1, quizmode 1 runs, if 2, quizmode 2 runs
+            switch(choice){
+                case "1":
+                    //add thing
+                    break;
+                case "2":
+                    //add thing
+                    break;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         initializeVariables();
         createQuiz();
@@ -59,6 +81,7 @@ public class Main {
             System.out.print(
                     "1. Start quiz now"
                     + "\n2. Create new quiz"
+                    + "\n3. Change quiz mode"
                     + "\n9. Quit"
                     + "\n>>> "
             );
@@ -70,6 +93,9 @@ public class Main {
                     break;
                 case "2":
                     createQuiz();
+                    break;
+                case "3":
+                    changeMode();
                     break;
                 case "9":
                     System.out.println("ok bye bye");
