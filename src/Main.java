@@ -10,16 +10,6 @@ public class Main {
             Quiz quiz = quizzes.get(i);
             System.out.println(i + 1 + ". " + quiz.getName());
         }
-        System.out.print("Enter topic do you want to get quizzed on: ");
-        String topic = inputHandler.nextLine();
-
-        try {
-            int topicIdx = Integer.parseInt(topic);
-            Quiz quizToRun = quizzes.get(topicIdx - 1);
-            quizToRun.run(inputHandler);
-        } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            System.out.println("Quiz number does not exist\n");
-        }
     }
 
     private static void initializeVariables() {
@@ -47,6 +37,33 @@ public class Main {
             continueOrNot = inputHandler.nextLine();
         } while (!continueOrNot.equalsIgnoreCase("yes"));
         quizzes.add(quiz);
+    }
+    private static void startQuiz() {
+        listQuizzes();
+        System.out.print("Enter topic do you want to get quizzed on: ");
+        String topic = inputHandler.nextLine();
+
+        try {
+            int topicIdx = Integer.parseInt(topic);
+            Quiz quizToRun = quizzes.get(topicIdx - 1);
+            quizToRun.run(inputHandler);
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            System.out.println("Quiz number does not exist\n");
+        }
+    }
+
+    private static void editQuiz() {
+        listQuizzes();
+        System.out.print("Enter the quiz number that you want to edit: ");
+        String quizNumber = inputHandler.nextLine();
+
+        try {
+            int quizIdx = Integer.parseInt(quizNumber);
+            Quiz quizToEdit = quizzes.get(quizIdx - 1);
+            quizToEdit.editScreen(inputHandler);
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            System.out.println("Quiz number does not exist\n");
+        }
     }
 
     private static void changeMode(){
@@ -87,6 +104,7 @@ public class Main {
                     "1. Start quiz now"
                     + "\n2. Create new quiz"
                     + "\n3. Change quiz mode"
+                    + "\n4. Edit quiz"
                     + "\n9. Quit"
                     + "\n>>> "
             );
@@ -94,13 +112,16 @@ public class Main {
             String choice = inputHandler.nextLine();
             switch (choice) {
                 case "1":
-                    listQuizzes();
+                    startQuiz();
                     break;
                 case "2":
                     createQuiz();
                     break;
                 case "3":
                     changeMode();
+                    break;
+                case "4":
+                    editQuiz();
                     break;
                 case "9":
                     System.out.println("ok bye bye");
