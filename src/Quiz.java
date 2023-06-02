@@ -112,17 +112,19 @@ public class Quiz implements Serializable {
                 }
             }
         }
-        /*
-        BROKEN
+
         if(mode==3) { //mcq for given word provide definition
-            ArrayList<Question> remix = new ArrayList<>(); //create a clone of the arraylist to shuffle around as the mc answers
-            if (questions.size() < 4) {
+            //create a clone of the arraylist to shuffle around as the mc answers
+            ArrayList<Question> remix = new ArrayList<>(questions);
                 for (Question question : questions) {
                     System.out.println(question.getWord());
                     Collections.shuffle(remix);
                     int x = 0; // takes note of which answer it is from 1-4
+                    int holder = 0;
                     for (int i = 0; i < remix.size(); i++) {
-                        System.out.println(i + 1 + ". " + remix.get(i).getWord());
+
+                        System.out.println(i + 1 + ". " + remix.get(i).getDefinition());
+                        holder = i ;
                         if (remix.get(i).getWord().equals(question.getWord())) {
                             x = i+1;
                         }
@@ -135,36 +137,7 @@ public class Quiz implements Serializable {
                         System.out.println("Wrong! The correct answer is: " + x);
                     }
                 }
-            } else { // select only 4 of them out of the arraylist including the answer
-                for(Question question : questions) {
-                    System.out.println(question.getWord());
-                    ArrayList<Question> answers = new ArrayList<>();
-                    while(answers.size()<3){
-                        int x = (int) (Math.random()*questions.size());
-                        if(questions.get(x)!=question){ //unsure if it works; how to check equivalence of objects when not string nor int?
-                            answers.add(questions.get(x));
-                        }
-                    }
-                    answers.add(question);
-                    Collections.shuffle(answers);
-                    int x = 0;
-                    for(int i = 0; i<answers.size();i++){
-                        System.out.println(i + 1 + ". " + answers.get(i).getWord());
-                        if(answers.get(i).getWord().equals(question.getWord())){
-                            x = i+1;
-                        }
-                        String userDefinition = inputHandler.nextLine().trim();
-                        if (userDefinition.equals("" + x)) {
-                            System.out.println("Correct!");
-                            numCorrect++;
-                        } else {
-                            System.out.println("Wrong! The correct answer is: " + x);
-                        }
-                    }
-                }
-
-            }
-        }*/
+        }
         System.out.println("You got " + numCorrect + " out of " + questions.size() + " right\n");
         numCorrect = 0;
     }
