@@ -68,24 +68,20 @@ public class Main {
 
     private static void changeMode(){
         System.out.println("Select a quiz mode");
-        while(true){
             System.out.println(
-                    "1. Given term, provide definition"
-                    + "\n2. Given definition, provide term"
-                    +"\n3. Multiple choice (unimplemented)"
+                    """
+                            1. Given term, provide definition
+                            2. Given definition, provide term
+                            3. Multiple choice (unimplemented)"""
             );
 
             String choice  = inputHandler.nextLine();
-            //likely add a new int variable in quiz class that determines quiz mode ex: if int = 1, quizmode 1 runs, if 2, quizmode 2 runs
-            switch(choice){
-                case "1":
-                    //add thing
-                    break;
-                case "2":
-                    //add thing
-                    break;
-            }
+        switch (choice) {
+            case "1" -> Quiz.changeMode(1);
+            case "2" -> Quiz.changeMode(2);
+            case "3" -> Quiz.changeMode(3);
         }
+
     }
 
     public static void main(String[] args) {
