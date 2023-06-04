@@ -1,5 +1,4 @@
 import java.io.Serializable;
-
 public class Question implements Serializable {
     private String word;
     private String definition;
@@ -16,5 +15,7 @@ public class Question implements Serializable {
     public String getDefinition() {
         return definition;
     }
+
+
 
 }
