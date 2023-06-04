@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class QuizAppGUI extends JFrame {
@@ -28,18 +26,14 @@ public class QuizAppGUI extends JFrame {
         quizPanel.add(quizComboBox);
 
         JButton startQuizButton = new JButton("Start Quiz");
-        startQuizButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                startQuiz();
-            }
+        startQuizButton.addActionListener(e -> {
+            startQuiz();
         });
         quizPanel.add(startQuizButton);
 
         JButton createQuizButton = new JButton("Create New Quiz");
-        createQuizButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                createQuiz();
-            }
+        createQuizButton.addActionListener(e -> {
+            createQuiz();
         });
         quizPanel.add(createQuizButton);
 
@@ -82,14 +76,13 @@ public class QuizAppGUI extends JFrame {
 
             quizzes.add(quiz);
             quizComboBox.addItem(quiz);
+            DataHandler.saveData(quizzes);
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new QuizAppGUI();
-            }
+        SwingUtilities.invokeLater(() -> {
+            new QuizAppGUI();
         });
     }
 

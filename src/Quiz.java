@@ -120,11 +120,9 @@ public class Quiz implements Serializable {
                     System.out.println(question.getWord());
                     Collections.shuffle(remix);
                     int x = 0; // takes note of which answer it is from 1-4
-                    int holder = 0;
                     for (int i = 0; i < remix.size(); i++) {
 
                         System.out.println(i + 1 + ". " + remix.get(i).getDefinition());
-                        holder = i ;
                         if (remix.get(i).getWord().equals(question.getWord())) {
                             x = i+1;
                         }
