@@ -149,4 +149,8 @@ public class Quiz implements Serializable {
         }
     }
 
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
 }
