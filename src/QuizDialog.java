@@ -36,8 +36,11 @@ public class QuizDialog extends JDialog {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        JPanel quizPanel = new JPanel();
-        quizPanel.setLayout(new GridLayout(0, 1));
+        JPanel quizMode = new JPanel();
+        quizMode.setLayout(new GridLayout(0, 1));
+
+        JPanel quizQuestion = new JPanel();
+        quizQuestion.setLayout(new GridLayout(0, 1));
 
         questionArea = new JTextArea();
         questionArea.setLineWrap(true);
@@ -49,7 +52,7 @@ public class QuizDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JScrollPane questionScrollPane = new JScrollPane(questionArea);
-                quizPanel.add(questionScrollPane);
+                quizMode.add(questionScrollPane);
             }
         });
 
@@ -57,14 +60,17 @@ public class QuizDialog extends JDialog {
         term.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                quizMode.setVisible(false);
+
                 JScrollPane questionScrollPane = new JScrollPane(questionArea);
-                quizPanel.add(questionScrollPane);
+                quizQuestion.add(questionScrollPane);
 
                 answerField = new JTextField();
                 answerField.setHorizontalAlignment(JTextField.CENTER);
                 answerField.setFont(answerField.getFont().deriveFont(Font.ITALIC));
                 answerField.setText("Enter your answer here");
 
+                mainPanel.add(quizQuestion);
 
                 answerField.addFocusListener(new FocusListener() {
                     @Override
@@ -87,7 +93,7 @@ public class QuizDialog extends JDialog {
                     }
                 });
 
-                quizPanel.add(answerField);
+                quizQuestion.add(answerField);
                 //moves on to next question
                 JButton nextButton = new JButton("Next");
                 nextButton.addActionListener(new ActionListener() {
@@ -98,7 +104,7 @@ public class QuizDialog extends JDialog {
                         answerField.requestFocusInWindow(); // Set focus back to the answer field
                     }
                 });
-                quizPanel.add(nextButton);
+                quizQuestion.add(nextButton);
             }
         });
 
@@ -106,6 +112,11 @@ public class QuizDialog extends JDialog {
         def.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                quizMode.setVisible(false);
+
+                JScrollPane questionScrollPane = new JScrollPane(questionArea);
+                quizQuestion.add(questionScrollPane);
+
                 answerField = new JTextField();
                 answerField.setHorizontalAlignment(JTextField.CENTER);
                 answerField.setFont(answerField.getFont().deriveFont(Font.ITALIC));
@@ -133,7 +144,7 @@ public class QuizDialog extends JDialog {
                     }
                 });
 
-                quizPanel.add(answerField);
+                quizQuestion.add(answerField);
                 //moves on to next question
                 JButton nextButton = new JButton("Next");
                 nextButton.addActionListener(new ActionListener() {
@@ -144,20 +155,20 @@ public class QuizDialog extends JDialog {
                         answerField.requestFocusInWindow(); // Set focus back to the answer field
                     }
                 });
-                quizPanel.add(nextButton);
+                quizQuestion.add(nextButton);
             }
         });
         if (selectMode) {
-            quizPanel.add(mcq);
-            quizPanel.add(term);
-            quizPanel.add(def);
+            quizMode.add(mcq);
+            quizMode.add(term);
+            quizMode.add(def);
         }
         else {
-            quizPanel.remove(mcq);
-            quizPanel.remove(term);
-            quizPanel.remove(def);
+            quizMode.remove(mcq);
+            quizMode.remove(term);
+            quizMode.remove(def);
         }
-        mainPanel.add(quizPanel, BorderLayout.CENTER);
+        mainPanel.add(quizMode, BorderLayout.CENTER);
         add(mainPanel);
 
         showNextQuestion();
@@ -192,7 +203,7 @@ public class QuizDialog extends JDialog {
     private void processAnswerForDef(String answer) {
         selectMode = false;
         Question currentQuestion = quiz.getQuestions().get(currentQuestionIndex - 1);
-        String correctAnswer = currentQuestion.getDefinition();
+        String correctAnswer = currentQuestion.getWord();
 
         if (answer.equalsIgnoreCase(correctAnswer)) {
             JOptionPane.showMessageDialog(this, "Correct!", "Result", JOptionPane.INFORMATION_MESSAGE);
