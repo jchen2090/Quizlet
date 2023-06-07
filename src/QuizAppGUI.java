@@ -42,7 +42,7 @@ public class QuizAppGUI extends JFrame {
         add(mainPanel);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 1500);
+        setSize(800, 600);
         setVisible(true);
     }
 
