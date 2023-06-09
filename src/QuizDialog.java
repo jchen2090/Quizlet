@@ -76,7 +76,7 @@ public class QuizDialog extends JDialog {
 
                     option1Button = new JRadioButton(a1);
                     option2Button = new JRadioButton(a2);
-                    option3Button = new JRadioButton(a3);
+                    option3Button = new JRadioButton(quiz.getQuestions().get(currentQuestionIndex).getDefinition());
                     option4Button = new JRadioButton(a4);
 
                     optionButtonGroup = new ButtonGroup();
@@ -96,10 +96,26 @@ public class QuizDialog extends JDialog {
                             Question currentQuestion = quiz.getQuestions().get(currentQuestionIndex - 1);
                             String correctAnswer = currentQuestion.getDefinition();
 
-                            ArrayList<Question> remix = new ArrayList<>(quiz.getQuestions());
-                            Collections.shuffle(remix);
 
-                            String selectedAnswer = (String) optionButtonGroup.getSelection().toString();
+                            ArrayList<Question> remix = new ArrayList<>(quiz.getQuestions());
+                            remix.remove(quiz.getQuestions().get(currentQuestionIndex));
+                            Collections.shuffle(remix);
+                            System.out.print(remix.toString());
+
+                            String a1 = remix.get(0).getDefinition();
+                            String a2 = remix.get(1).getDefinition();
+                            String a3 = remix.get(2).getDefinition();
+                            String a4 = remix.get(3).getDefinition();
+
+                            option1Button.setText(a1);
+                            option2Button.setText(a2);
+                            option3Button.setText(quiz.getQuestions().get(currentQuestionIndex).getDefinition());
+                            option4Button.setText(a4);
+
+                            System.out.println(quiz.getQuestions().get(currentQuestionIndex).getDefinition());
+
+                            String selectedAnswer = (String) optionButtonGroup.getSelection();
+                            System.out.println(selectedAnswer);
                             processAnswerForTerm(selectedAnswer);
                             showNextQuestion();
                         }
