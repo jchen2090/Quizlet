@@ -16,6 +16,10 @@ public class Question implements Serializable {
         return definition;
     }
 
+    public String toString() {
+        return word + definition;
+    }
+
 
 
 }

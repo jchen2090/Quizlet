@@ -1,3 +1,5 @@
+import com.sun.jdi.ArrayReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +20,13 @@ public class Quiz implements Serializable {
 
     public String getName() {
         return name;
+    }
+    public ArrayList<String> answerArray() {
+        ArrayList<String> temp = new ArrayList<>();
+        for (int i = 0; i < quizSize(); i++) {
+            temp.add(questions.get(i).getDefinition());
+        }
+        return temp;
     }
 
     public static void changeMode(int x){
@@ -122,6 +131,7 @@ public class Quiz implements Serializable {
                 for (Question question : questions) {
                     System.out.println(question.getWord());
                     Collections.shuffle(remix);
+
                     int x = 0; // takes note of which answer it is from 1-4
                     for (int i = 0; i < remix.size(); i++) {
 
