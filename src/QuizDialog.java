@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Collections;
+import java.util.ArrayList;
 
 public class QuizDialog extends JDialog {
 
@@ -16,6 +18,9 @@ public class QuizDialog extends JDialog {
     private JTextField answerField;//displays place for type
     private boolean isAnswerFieldEmpty;//does wierd/cool animation
     private boolean selectMode = true;
+    private JComboBox<String> answerChoices;
+    private ArrayList<String> answers;
+
 
     private JRadioButton option1Button, option2Button, option3Button, option4Button; //choices for mcq
     private ButtonGroup optionButtonGroup; //group buttons together
@@ -59,18 +64,50 @@ public class QuizDialog extends JDialog {
                     quizMode.setVisible(false);
 
                     JScrollPane questionScrollPane = new JScrollPane(questionArea);
-                    quizMode.add(questionScrollPane);
+                    quizQuestion.add(questionScrollPane);
 
-                    option1Button = new JRadioButton();
-                    option2Button = new JRadioButton();
-                    option3Button = new JRadioButton();
-                    option4Button = new JRadioButton();
+                    ArrayList<Question> remix = new ArrayList<>(quiz.getQuestions());
+                    Collections.shuffle(remix);
+
+                    String a1 = remix.get(0).getDefinition();
+                    String a2 = remix.get(1).getDefinition();
+                    String a3 = remix.get(2).getDefinition();
+                    String a4 = remix.get(3).getDefinition();
+
+                    option1Button = new JRadioButton(a1);
+                    option2Button = new JRadioButton(a2);
+                    option3Button = new JRadioButton(a3);
+                    option4Button = new JRadioButton(a4);
 
                     optionButtonGroup = new ButtonGroup();
                     optionButtonGroup.add(option1Button);
                     optionButtonGroup.add(option2Button);
                     optionButtonGroup.add(option3Button);
                     optionButtonGroup.add(option4Button);
+
+                    quizQuestion.add(option1Button);
+                    quizQuestion.add(option2Button);
+                    quizQuestion.add(option3Button);
+                    quizQuestion.add(option4Button);
+
+                    JButton nextButton = new JButton("Next");
+                    nextButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            Question currentQuestion = quiz.getQuestions().get(currentQuestionIndex - 1);
+                            String correctAnswer = currentQuestion.getDefinition();
+
+                            ArrayList<Question> remix = new ArrayList<>(quiz.getQuestions());
+                            Collections.shuffle(remix);
+
+                            String selectedAnswer = (String) optionButtonGroup.getSelection().toString();
+                            processAnswerForTerm(selectedAnswer);
+                            showNextQuestion();
+                        }
+                    });
+
+                    quizQuestion.add(nextButton);
+
+                    mainPanel.add(quizQuestion);
                 }
                 else {
                     JOptionPane no = new JOptionPane("The following list has less than 4 terms.");
@@ -209,6 +246,12 @@ public class QuizDialog extends JDialog {
         } else {
             showQuizSummary();
         }
+    }
+
+    private void updateAnswerChoices() {
+        Collections.shuffle(answers);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(answers.toArray(new String[0]));
+        answerChoices.setModel(model);
     }
 
     //checks for right or wrong answer
