@@ -31,6 +31,9 @@ public class Quiz implements Serializable {
     public void addWord(Question question) {
         questions.add(question);
     }
+    public int quizSize() {
+        return questions.size();
+    }
 
     public void editScreen(final Scanner inputHandler) {
         while (true) {

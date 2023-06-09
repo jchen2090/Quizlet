@@ -35,6 +35,7 @@ public class QuizDialog extends JDialog {
     }
 
 
+
     private void initializeComponents() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -54,19 +55,28 @@ public class QuizDialog extends JDialog {
         mcq.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JScrollPane questionScrollPane = new JScrollPane(questionArea);
-                quizMode.add(questionScrollPane);
+                if (quiz.quizSize() > 3) {
+                    quizMode.setVisible(false);
 
-                option1Button = new JRadioButton();
-                option2Button = new JRadioButton();
-                option3Button = new JRadioButton();
-                option4Button = new JRadioButton();
+                    JScrollPane questionScrollPane = new JScrollPane(questionArea);
+                    quizMode.add(questionScrollPane);
 
-                optionButtonGroup = new ButtonGroup();
-                optionButtonGroup.add(option1Button);
-                optionButtonGroup.add(option2Button);
-                optionButtonGroup.add(option3Button);
-                optionButtonGroup.add(option4Button);
+                    option1Button = new JRadioButton();
+                    option2Button = new JRadioButton();
+                    option3Button = new JRadioButton();
+                    option4Button = new JRadioButton();
+
+                    optionButtonGroup = new ButtonGroup();
+                    optionButtonGroup.add(option1Button);
+                    optionButtonGroup.add(option2Button);
+                    optionButtonGroup.add(option3Button);
+                    optionButtonGroup.add(option4Button);
+                }
+                else {
+                    JOptionPane no = new JOptionPane("The following list has less than 4 terms.");
+                    JOptionPane.showMessageDialog(null, "The following list has less than 4 terms.","error", JOptionPane.PLAIN_MESSAGE);
+
+                }
 
             }
         });
