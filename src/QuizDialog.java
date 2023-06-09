@@ -114,7 +114,7 @@ public class QuizDialog extends JDialog {
 
                             System.out.println(quiz.getQuestions().get(currentQuestionIndex).getDefinition());
 
-                            String selectedAnswer = (String) optionButtonGroup.getSelection();
+                            String selectedAnswer = (String) optionButtonGroup.getSelection().toString();
                             System.out.println(selectedAnswer);
                             processAnswerForTerm(selectedAnswer);
                             showNextQuestion();
