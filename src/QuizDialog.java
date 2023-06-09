@@ -17,6 +17,9 @@ public class QuizDialog extends JDialog {
     private boolean isAnswerFieldEmpty;//does wierd/cool animation
     private boolean selectMode = true;
 
+    private JRadioButton option1Button, option2Button, option3Button, option4Button; //choices for mcq
+    private ButtonGroup optionButtonGroup; //group buttons together
+
     //creates GUI
     public QuizDialog(JFrame parentFrame, Quiz quiz) {
         super(parentFrame, "Quiz", true);
@@ -53,6 +56,18 @@ public class QuizDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 JScrollPane questionScrollPane = new JScrollPane(questionArea);
                 quizMode.add(questionScrollPane);
+
+                option1Button = new JRadioButton();
+                option2Button = new JRadioButton();
+                option3Button = new JRadioButton();
+                option4Button = new JRadioButton();
+
+                optionButtonGroup = new ButtonGroup();
+                optionButtonGroup.add(option1Button);
+                optionButtonGroup.add(option2Button);
+                optionButtonGroup.add(option3Button);
+                optionButtonGroup.add(option4Button);
+
             }
         });
 
@@ -121,6 +136,8 @@ public class QuizDialog extends JDialog {
                 answerField.setHorizontalAlignment(JTextField.CENTER);
                 answerField.setFont(answerField.getFont().deriveFont(Font.ITALIC));
                 answerField.setText("Enter your answer here");
+
+                mainPanel.add(quizQuestion);
 
 
                 answerField.addFocusListener(new FocusListener() {
