@@ -37,6 +37,12 @@ public class QuizAppGUI extends JFrame {
         });
         quizPanel.add(createQuizButton);
 
+        JButton editQuizButton = new JButton("Edit quiz");
+        editQuizButton.addActionListener(e -> {
+            editQuiz();
+        });
+        quizPanel.add(editQuizButton);
+        
         mainPanel.add(quizPanel, BorderLayout.CENTER);
 
         add(mainPanel);
@@ -60,7 +66,7 @@ public class QuizAppGUI extends JFrame {
 
     private void createQuiz() {
         String quizName = JOptionPane.showInputDialog(this, "Enter the topic of your quiz:", "Create New Quiz", JOptionPane.PLAIN_MESSAGE);
-        if (quizName != null && !quizName.isEmpty()) {
+        if (quizName != null && !quizName.isBlank()) {
             Quiz quiz = new Quiz(quizName);
             String continueOrNot;
 
@@ -78,6 +84,17 @@ public class QuizAppGUI extends JFrame {
             quizComboBox.addItem(quiz);
             DataHandler.saveData(quizzes);
         }
+    }
+
+    private void editQuiz() {
+        Quiz selectedQuiz = (Quiz) quizComboBox.getSelectedItem();
+        if (selectedQuiz != null) {
+            EditQuizGUI quizDialog = new EditQuizGUI(this, selectedQuiz);
+            quizDialog.setVisible(true);
+        } else {
+            System.out.println("Invalid quiz");
+        }
+        DataHandler.saveData(quizzes);
     }
 
     public static void main(String[] args) {
