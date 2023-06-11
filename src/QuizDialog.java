@@ -20,6 +20,8 @@ public class QuizDialog extends JDialog {
     private boolean selectMode = true;
     private JComboBox<String> answerChoices;
     private ArrayList<String> answers;
+    private ArrayList<Question> remix;
+    private String a1, a2, a3, a4;
 
 
     private JRadioButton option1Button, option2Button, option3Button, option4Button; //choices for mcq
@@ -66,17 +68,18 @@ public class QuizDialog extends JDialog {
                     JScrollPane questionScrollPane = new JScrollPane(questionArea);
                     quizQuestion.add(questionScrollPane);
 
-                    ArrayList<Question> remix = new ArrayList<>(quiz.getQuestions());
-                    Collections.shuffle(remix);
+                    remix = new ArrayList<>(quiz.getQuestions());
 
-                    String a1 = remix.get(0).getDefinition();
-                    String a2 = remix.get(1).getDefinition();
-                    String a3 = remix.get(2).getDefinition();
-                    String a4 = remix.get(3).getDefinition();
+                    scrambleChoices();
+
+                     a1 = remix.get(0).getDefinition();
+                     a2 = remix.get(1).getDefinition();
+                     a3 = remix.get(2).getDefinition();
+                     a4 = remix.get(3).getDefinition();
 
                     option1Button = new JRadioButton(a1);
                     option2Button = new JRadioButton(a2);
-                    option3Button = new JRadioButton(quiz.getQuestions().get(currentQuestionIndex).getDefinition());
+                    option3Button = new JRadioButton(a3);
                     option4Button = new JRadioButton(a4);
 
                     optionButtonGroup = new ButtonGroup();
@@ -93,32 +96,36 @@ public class QuizDialog extends JDialog {
                     JButton nextButton = new JButton("Next");
                     nextButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            Question currentQuestion = quiz.getQuestions().get(currentQuestionIndex - 1);
-                            String correctAnswer = currentQuestion.getDefinition();
+                            String ans = "";
+                            if (option1Button.isSelected()) {
+                                ans = a1;
+                            }
+                            if (option2Button.isSelected()) {
+                                ans = a2;
+                            }
+                            if (option3Button.isSelected()) {
+                                ans = a3;
+                            }
+                            if (option4Button.isSelected()) {
+                                ans = a4;
+                            }
+                            System.out.println(remix);
+                            System.out.println(ans);
+                            processAnswerForTerm(ans);
+                            showNextQuestion();
 
+                            scrambleChoices();
 
-                            ArrayList<Question> remix = new ArrayList<>(quiz.getQuestions());
-                            remix.remove(quiz.getQuestions().get(currentQuestionIndex));
-                            Collections.shuffle(remix);
-                            System.out.print(remix.toString());
-
-                            String a1 = remix.get(0).getDefinition();
-                            String a2 = remix.get(1).getDefinition();
-                            String a3 = remix.get(2).getDefinition();
-                            String a4 = remix.get(3).getDefinition();
+                            a1 = remix.get(0).getDefinition();
+                            a2 = remix.get(1).getDefinition();
+                            a3 = remix.get(2).getDefinition();
+                            a4 = remix.get(3).getDefinition();
 
                             option1Button.setText(a1);
                             option2Button.setText(a2);
-                            option3Button.setText(quiz.getQuestions().get(currentQuestionIndex).getDefinition());
+                            option3Button.setText(a3);
                             option4Button.setText(a4);
 
-                            System.out.println(quiz.getQuestions().get(currentQuestionIndex).getDefinition());
-
-                            //TODO temporary fix for saving/loading bug
-                            String selectedAnswer = "";
-                            System.out.println(selectedAnswer);
-                            processAnswerForTerm(selectedAnswer);
-                            showNextQuestion();
                         }
                     });
 
@@ -271,6 +278,21 @@ public class QuizDialog extends JDialog {
         answerChoices.setModel(model);
     }
 
+    public void scrambleChoices() {
+        Collections.shuffle(remix);
+        int counter = 4;
+        while (counter == 4) {
+            counter = 0;
+            for (int i = 0; i < 4; i++) {
+                if (!(remix.get(i).getDefinition().equals(quiz.getQuestions().get(currentQuestionIndex - 1).getDefinition()))) {
+                    counter++;
+                }
+            }
+            if (counter == 4) {
+                Collections.shuffle(remix);
+            }
+        }
+    }
     //checks for right or wrong answer
     private void processAnswerForTerm(String answer) {
         selectMode = false;
